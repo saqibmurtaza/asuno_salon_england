@@ -1,0 +1,29 @@
+asuno_salon_england/
+├── chainlit_frontend/
+│   ├── README.md
+│   ├── pyproject.toml
+│   ├── src/
+│   │   ├── chainlit_frontend/
+│   │   │   ├── __init__.py
+│   │   │   ├── app.py
+│   │   │   ├── booking_flow.py
+│   │   │   ├── opening_hours.py
+│   │   │   ├── salon_data.py
+│   ├── uv.lock
+├── fastapi_backend/
+│   ├── README.md
+│   ├── pyproject.toml
+│   ├── src/
+│   │   ├── fastapi_backend/
+│   │   │   ├── __init__.py
+│   │   │   ├── agents/
+│   │   │   │   ├── config_agents.py
+│   │   │   │   ├── marketing_agent.py
+│   │   │   ├── database.py
+│   │   │   ├── main.py
+│   │   │   ├── models/
+│   │   │   │   ├── booking_models.py
+│   │   │   ├── settings.py
+│   │   │   ├── utils.py
+│   ├── uv.lock
+├── tree.py

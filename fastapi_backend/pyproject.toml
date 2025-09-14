@@ -1,0 +1,33 @@
+[project]
+name = "fastapi-backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "saqibmurtaza", email = "saqibmurtazakhan@gmai.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.14",
+    "uvicorn[standard]",
+    "httpx",
+    "requests",
+    "python-dotenv",
+    "pydantic",
+    "pydantic-settings",
+    "sqlmodel",
+    "asyncpg",
+    "rich",
+    "orjson",
+    "python-jose>=3.5.0",
+    "pytz>=2025.2",
+    "sqlalchemy>=2.0.42",
+    "setuptools>=80.9.0",
+]
+
+[project.scripts]
+fastapi-backend = "fastapi_backend:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
