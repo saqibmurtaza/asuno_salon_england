@@ -1,0 +1,10 @@
+# .gitignore for FastAPI Backend
+
+# Ignore virtual environments
+.venv/
+.uv/
+.mypy_cache/
+__pycache__/
+
+# Ignore environment variables
+.env
