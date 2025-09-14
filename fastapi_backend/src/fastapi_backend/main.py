@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from asuno_salon_england.backend.database import create_db_tables
+from .database import create_db_tables, get_db
 from fastapi.middleware.cors import CORSMiddleware
-from asuno_salon_england.backend.models.booking_models import Booking, BookingCreate, BookingOut
-from asuno_salon_england.backend.database import get_db
+from .models.booking_models import Booking, BookingCreate, BookingOut
+from .models.session_models import SessionHistory
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException
 from sqlalchemy import select
 from datetime import datetime, timezone, timedelta
-from asuno_salon_england.backend.utils import get_service_duration, generate_time_slots
-from asuno_salon_england.chainlit_frontend.opening_hours import OPENING_HOURS
+from .utils import get_service_duration, generate_time_slots
+from chainlit_frontend.src.chainlit_frontend.opening_hours import OPENING_HOURS
 import logging
 from .agents.config_agents import config
 
@@ -138,12 +138,38 @@ async def get_available_times(
         # Never leak raw tracebacks
         return {"date": None, "available": [], "error": str(e)}
 
-# --------- ENDPOINTS  ---------
+# --------- AGENT ENDPOINTS  ---------
+from pydantic import BaseModel
+from .session_store import PostgresSessionStore
+from .agents.marketing_agent import aria
+from agents import Runner, AgentResult
 
-app.get("/agent/config")
-async def get_config():
-    return {"config": config}
+class AgentRunRequest(BaseModel):
+    user_input: str
+    session_id: str
 
-app.get("/agents/{agent_name}")
-async def get_agent(agent_name: str):
-    
+class AgentRunResponse(BaseModel):
+    response: str
+
+@app.post("/agent/run", response_model=AgentRunResponse)
+async def agent_run(req: AgentRunRequest, db: AsyncSession = Depends(get_db)):
+    """
+    Runs the Aria agent for a given user input and session.
+    """
+    session_store = PostgresSessionStore(session_id=req.session_id, db=db)
+    await session_store.load_or_create()
+
+    # The Runner is expected to work with a session object that has a 'messages' property
+    # and potentially methods like 'add_message'. The PostgresSessionStore is designed
+    # to be compatible with this pattern.
+    result: AgentResult = await Runner.run(
+        aria,
+        req.user_input,
+        session=session_store,
+        run_config=config,
+    )
+
+    # The runner modifies the session history in-place. We save the changes.
+    await session_store.save()
+
+    return {"response": result.final_output}
