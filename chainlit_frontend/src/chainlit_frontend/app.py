@@ -1,4 +1,3 @@
-from agents import Runner, SQLiteSession
 from collections import defaultdict
 from .opening_hours import OPENING_HOURS
 from .booking_flow import BookingFlow
@@ -15,15 +14,14 @@ if not os.getenv("CHAINLIT_DB_URL"):
 # Global booking flow instance (1 per session)
 booking_flow = BookingFlow()
 
-API_BASE = "http://localhost:8000"  # backend running locally or deployed
+API_BASE = "http://localhost:8001"  # NOTE: Changed to 8001 to match backend
 
 
 
 @cl.on_chat_start
 async def on_chat_start():
-    # Each user session gets a unique session ID for the agent's memory
-    session_id = cl.user_session.get("id")
-    cl.user_session.set("agent_session", SQLiteSession(session_id))
+    # Session ID is implicitly managed by the user's connection.
+    # The backend will handle session state based on the ID we send.
     await cl.Message(
         content=(
             "💇‍♀️ **Welcome to Asuna Salon!** ✨\n\n"
@@ -52,7 +50,7 @@ async def send_followup_buttons(content: str):
 
 @cl.on_message
 async def on_message(message: cl.Message):
-    agent_session = cl.user_session.get("agent_session")
+    session_id = cl.user_session.get("id")
     user_input = message.content.strip()
     lower_input = user_input.lower()
 
@@ -77,14 +75,25 @@ async def on_message(message: cl.Message):
         await send_followup_buttons("✨ What would you like to do next?")
         return
 
-    # Otherwise → forward to marketing agent Aria
-    result = await Runner.run(
-        aria,
-        user_input,
-        session=agent_session,
-        run_config=config,
-    )
-    await cl.Message(content=result.final_output).send()
+    # Otherwise → forward to marketing agent Aria via API
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{API_BASE}/agent/run",
+                json={"user_input": user_input, "session_id": session_id},
+                timeout=60, # Extend timeout for potentially long-running agent
+            )
+            response.raise_for_status() # Raise an exception for bad status codes
+            agent_response = response.json()
+            await cl.Message(content=agent_response.get("response", "Sorry, something went wrong.")).send()
+
+    except httpx.HTTPStatusError as e:
+        await cl.Message(content=f"Sorry, the service is temporarily unavailable. Please try again later. (Error: {e.response.status_code})").send()
+    except httpx.RequestError:
+        await cl.Message(content="Sorry, I couldn't connect to the backend service. Please check if it's running.").send()
+    except Exception as e:
+        await cl.Message(content=f"An unexpected error occurred: {e}").send()
+
     await send_followup_buttons("✨ What would you like to do next?")
 
 # ---------- ACTION BUTTON CALLBACKS ----------
