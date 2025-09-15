@@ -63,3 +63,11 @@ class PostgresSessionStore:
         that expect a 'messages' attribute.
         """
         return self.history
+
+    async def get_items(self, *args, **kwargs) -> List[Dict[str, Any]]:
+        """
+        Retrieves the list of messages from the in-memory history.
+        This method is required by the 'agents' library and must accept arguments
+        even if they are not used.
+        """
+        return self.history

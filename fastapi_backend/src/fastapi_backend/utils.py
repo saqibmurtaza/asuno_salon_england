@@ -1,4 +1,4 @@
-from asuno_salon_birmingham.chainlit_frontend.salon_data import services
+from fastapi_backend.salon_data import services
 from datetime import datetime, timedelta
 
 

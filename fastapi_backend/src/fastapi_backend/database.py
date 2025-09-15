@@ -1,7 +1,7 @@
 # asuna_salon_backend/database.py
 import os
 from supabase import Client, create_client
-from asuno_salon_birmingham.backend.settings import settings
+from fastapi_backend.settings import settings
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import SQLModel
 from sqlalchemy.ext.asyncio import create_async_engine

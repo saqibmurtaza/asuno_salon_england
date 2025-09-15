@@ -1,7 +1,7 @@
 from collections import defaultdict
-from .opening_hours import OPENING_HOURS
-from .booking_flow import BookingFlow
-from .salon_data import services
+from chainlit_frontend.opening_hours import OPENING_HOURS
+from chainlit_frontend.booking_flow import BookingFlow
+from chainlit_frontend.salon_data import services
 import chainlit as cl, httpx, os
 
 os.environ["CHAINLIT_DISABLE_PERSISTENCE"] = "true"  # Force stateless mode for easier local testing

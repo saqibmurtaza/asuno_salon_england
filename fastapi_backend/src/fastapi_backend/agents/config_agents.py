@@ -1,4 +1,4 @@
-from openai import AsyncOpenAI
+from agents import AsyncOpenAI
 from agents import Agent, OpenAIChatCompletionsModel, RunConfig, set_tracing_disabled
 from dotenv import load_dotenv
 import os

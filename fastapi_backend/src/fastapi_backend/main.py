@@ -9,9 +9,9 @@ from fastapi import Depends, HTTPException
 from sqlalchemy import select
 from datetime import datetime, timezone, timedelta
 from .utils import get_service_duration, generate_time_slots
-from chainlit_frontend.src.chainlit_frontend.opening_hours import OPENING_HOURS
+from fastapi_backend.opening_hours import OPENING_HOURS
+from fastapi_backend.agents.config_agents import config
 import logging
-from .agents.config_agents import config
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -142,7 +142,7 @@ async def get_available_times(
 from pydantic import BaseModel
 from .session_store import PostgresSessionStore
 from .agents.marketing_agent import aria
-from agents import Runner, AgentResult
+from agents import Runner
 
 class AgentRunRequest(BaseModel):
     user_input: str
@@ -162,14 +162,17 @@ async def agent_run(req: AgentRunRequest, db: AsyncSession = Depends(get_db)):
     # The Runner is expected to work with a session object that has a 'messages' property
     # and potentially methods like 'add_message'. The PostgresSessionStore is designed
     # to be compatible with this pattern.
-    result: AgentResult = await Runner.run(
+    result = await Runner.run(
         aria,
         req.user_input,
         session=session_store,
         run_config=config,
     )
 
+
     # The runner modifies the session history in-place. We save the changes.
     await session_store.save()
 
+    # return {"response": result.final_output}
     return {"response": result.final_output}
+

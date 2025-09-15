@@ -1,10 +1,16 @@
-# .gitignore for Chainlit Frontend
+# VSCode
+.vscode/
+*.code-workspace
 
-# Ignore virtual environments
-.venv/
-.uv/
-.mypy_cache/
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.venv/
+*/.venv/
 
-# Ignore environment variables
+# Env files
 .env
+.env.*
