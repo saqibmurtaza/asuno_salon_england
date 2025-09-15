@@ -28,6 +28,7 @@ async_engine = create_async_engine(
     future=True,
     # Crucial for PgBouncer/Supavisor transaction mode: disable prepared statement cache
     connect_args={"statement_cache_size": 0},
+    
     # Recommended for pooled connections:
     pool_pre_ping=True, # Pings connections before use
     pool_recycle=3600 # Recycles connections after 1 hour

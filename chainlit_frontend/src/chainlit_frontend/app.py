@@ -14,8 +14,8 @@ if not os.getenv("CHAINLIT_DB_URL"):
 # Global booking flow instance (1 per session)
 booking_flow = BookingFlow()
 
-API_BASE = "http://localhost:8001"  # NOTE: Changed to 8001 to match backend
-
+# API_BASE = "http://localhost:8001"  # NOTE: Changed to production when you deploy
+API_BASE = "https://asuno-salon-chatbot.onrender.com"
 
 
 @cl.on_chat_start
