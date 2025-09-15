@@ -23,10 +23,8 @@ class PostgresSessionStore:
         session = result.scalar_one_or_none()
 
         if session:
-            # The history from the DB is a dict/list, no need to parse JSON
             self.history = session.history
         else:
-            # Create a new session history entry
             self.history = []
             new_session = SessionHistory(session_id=self.session_id, history=self.history)
             self.db.add(new_session)
@@ -44,14 +42,13 @@ class PostgresSessionStore:
             session.history = self.history
             await self.db.commit()
         else:
-            # This case should ideally not be hit if load_or_create is called first
             new_session = SessionHistory(session_id=self.session_id, history=self.history)
             self.db.add(new_session)
             await self.db.commit()
 
     def add_message(self, message: Dict[str, Any]):
         """
-        Adds a message to the in-memory history.
+        Adds a single message to the in-memory history.
         """
         self.history.append(message)
 
@@ -59,15 +56,18 @@ class PostgresSessionStore:
     def messages(self) -> List[Dict[str, Any]]:
         """
         Returns the list of messages.
-        This property is to maintain compatibility with agent libraries
-        that expect a 'messages' attribute.
         """
         return self.history
 
     async def get_items(self, *args, **kwargs) -> List[Dict[str, Any]]:
         """
-        Retrieves the list of messages from the in-memory history.
-        This method is required by the 'agents' library and must accept arguments
-        even if they are not used.
+        Retrieves the list of messages.
         """
         return self.history
+
+    async def add_items(self, items: List[Dict[str, Any]]):
+        """
+        Adds multiple items/messages to the in-memory history.
+        This method is required by the 'agents' Runner.
+        """
+        self.history.extend(items)
