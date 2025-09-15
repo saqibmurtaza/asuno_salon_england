@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 from chainlit_frontend.salon_data import services
 import chainlit as cl, httpx
 
-API_BASE = "http://localhost:8001"  # ⬅️ replace with prod URL when deployed
-
+# API_BASE = "http://localhost:8001"  # ⬅️ replace with prod URL when deployed
+API_BASE = "https://asuno-salon-chatbot.onrender.com"
 
 class BookingFlow:
     """
