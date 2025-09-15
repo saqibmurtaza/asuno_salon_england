@@ -40,7 +40,7 @@ servers=[
             "description": "Local development server",
         },
         {
-            "url": "https://your-backend-api.vercel.app",  # Replace with real domain if deployed
+            "url": "https://asuno-salon-chatbot.onrender.com",  # Replace with real domain if deployed
             "description": "Production server",
         }
     ]
