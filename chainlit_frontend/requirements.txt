@@ -1,0 +1,12 @@
+chainlit
+openai-agents>=0.0.12
+httpx
+requests
+supabase>=2.18.1
+python-dotenv
+pydantic
+pydantic-settings
+rich
+google-api-python-client>=2.167.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.2.1
