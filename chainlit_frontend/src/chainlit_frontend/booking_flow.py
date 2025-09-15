@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from asuno_salon_birmingham.chainlit_frontend.salon_data import services
+from chainlit_frontend.salon_data import services
 import chainlit as cl, httpx
 
 API_BASE = "http://localhost:8001"  # ⬅️ replace with prod URL when deployed

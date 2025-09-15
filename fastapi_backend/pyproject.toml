@@ -23,6 +23,9 @@ dependencies = [
     "pytz>=2025.2",
     "sqlalchemy>=2.0.42",
     "setuptools>=80.9.0",
+    "supabase>=2.18.1",
+    "openai-agents>=0.3.0",
+    "gunicorn>=23.0.0",
 ]
 
 [project.scripts]
