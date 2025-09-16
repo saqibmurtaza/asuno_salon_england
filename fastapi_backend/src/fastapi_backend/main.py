@@ -68,8 +68,10 @@ app.add_middleware(
 async def root():
     return {"message": "Welcome to Asuna Salon API"}
 
-@app.get("/health")
-def health():
+@app.get("/health", include_in_schema=False)
+@app.head("/health", include_in_schema=False)
+
+def health_check():
     return {"status": "ok"}
 
 @app.post("/bookings", response_model=BookingOut)
