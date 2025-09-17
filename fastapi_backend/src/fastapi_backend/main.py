@@ -11,7 +11,6 @@ from datetime import datetime, timezone, timedelta
 from .utils import get_service_duration, generate_time_slots
 from fastapi_backend.opening_hours import OPENING_HOURS
 from fastapi_backend.agents.config_agents import config
-from fastapi.staticfiles import StaticFiles
 import logging
 
 # Setup logging
@@ -61,9 +60,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"], 
 )
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 # --------- ENDPOINTS---------
 
