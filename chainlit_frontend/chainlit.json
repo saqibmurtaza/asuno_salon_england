@@ -1,0 +1,24 @@
+{
+  "public": false,
+  "features": {
+    "ask_file": true,
+    "html_allow_iframe": true,
+    "html_allow_scripts": true
+  },
+  "ui": {
+    "name": "Aria AI",
+    "theme": "dark",
+    "hide_toolbar": false,
+    "hide_cot": true,
+    "hide_watermark": false,
+    "hide_feedback": false,
+    "hide_chainlit_logo": false,
+    "logo": "https://asuno-salon-chatbot.onrender.com/static/static.png"
+    
+  },
+  "user_env": [],
+  "host": "0.0.0.0",
+  "port": 8000,
+  "workers": 1,
+  "show_settings": true
+}
