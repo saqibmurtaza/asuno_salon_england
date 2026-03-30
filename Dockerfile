@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r chainlit_frontend/requirements.txt
 EXPOSE 7860 8000
 
 # Start both services
-CMD ["sh", "-c", "cd fastapi_backend && python -m uvicorn src.fastapi_backend.main:app --host 0.0.0.0 --port 8000 & cd chainlit_frontend && chainlit run src/chainlit_frontend/app.py --host 0.0.0.0 --port 7860"]
+CMD ["sh", "-c", "cd fastapi_backend && python -m uvicorn src.fastapi_backend.main:app --host 0.0.0.0 --port 8000 & cd ../chainlit_frontend && chainlit run src/chainlit_frontend/app.py --host 0.0.0.0 --port 7860 && wait"]

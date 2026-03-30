@@ -1,8 +1,15 @@
 from collections import defaultdict
+import sys
+import os
+
+# Add the correct path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'chainlit_frontend', 'src'))
+
 from chainlit_frontend.opening_hours import OPENING_HOURS
 from chainlit_frontend.booking_flow import BookingFlow
 from chainlit_frontend.salon_data import services
-import chainlit as cl, httpx, os
+import chainlit as cl
+import httpx
 
 os.environ["CHAINLIT_DISABLE_PERSISTENCE"] = "true"  # Force stateless mode for easier local testing
 
