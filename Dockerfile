@@ -14,9 +14,9 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Copy everything
 COPY . .
 
-# Install dependencies
-RUN cd fastapi_backend && uv sync
-RUN cd ../chainlit_frontend && uv sync
+# Install dependencies using absolute paths
+RUN cd /app/fastapi_backend && uv sync
+RUN cd /app/chainlit_frontend && uv sync
 
 # Expose ports
 EXPOSE 7860 8000
