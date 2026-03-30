@@ -18,4 +18,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         # Replace 'saqibmurtaza' with your HF username if different
-        run: git push -f https://saqibmurtaza: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@huggingface.co/spaces/saqibmurtaza/Asuno-Salon main
+        run: git push -f https://saqibmurtaza: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@huggingface.co/spaces/saqibmurtaza/Asuno-Salon main
