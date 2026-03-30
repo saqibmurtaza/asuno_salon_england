@@ -1,0 +1,25 @@
+name: Push to Hugging Face
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-to-hf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Add Hugging Face remote
+        run: |
+          git remote add hf https://huggingface.co/spaces/saqibmurtaza/Asuno-Salon
+
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git remote set-url hf https://saqibmurtaza:${HF_TOKEN}@huggingface.co/spaces/saqibmurtaza/Asuno-Salon
+          git push -f hf main
