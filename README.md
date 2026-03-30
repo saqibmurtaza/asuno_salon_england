@@ -1,5 +1,5 @@
 ---
-title: Asuna Salon UK
+title: Asuno-Salon
 emoji: 💇‍♀️
 colorFrom: pink
 colorTo: indigo
