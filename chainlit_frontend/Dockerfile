@@ -1,5 +1,5 @@
 # Use a slim Python image
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -21,7 +21,7 @@ RUN cd fastapi_backend && uv sync
 RUN cd chainlit_frontend && uv sync
 
 # Expose the Hugging Face default port
-EXPOSE 7860
+EXPOSE 7860 8000
 
 # Start both services
 # We use 'uv run' to ensure the virtual environments are used
