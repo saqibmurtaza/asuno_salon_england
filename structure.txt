@@ -3,6 +3,7 @@ asuno_salon_england/
 ├── README.md
 ├── app.py
 ├── chainlit_frontend/
+│   ├── app.py
 │   ├── chainlit.json
 │   ├── chainlit.md
 │   ├── public/
