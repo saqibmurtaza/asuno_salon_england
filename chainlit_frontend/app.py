@@ -3,7 +3,8 @@ import sys
 import os
 
 # Add the correct path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'chainlit_frontend', 'src'))
+# sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'chainlit_frontend', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from chainlit_frontend.booking_flow import BookingFlow
 from chainlit_frontend.salon_data import services
@@ -20,9 +21,12 @@ if not os.getenv("CHAINLIT_DB_URL"):
 # Global booking flow instance (1 per session)
 booking_flow = BookingFlow()
 
-API_BASE = "http://localhost:8000"  # NOTE: Changed to production when you deploy
-# API_BASE = "https://asuno-salon-chatbot.onrender.com"
 
+API_BASE = os.getenv("API_BASE", "http://localhost:8000")
+# Debug: Print to verify it's loaded
+print(f"API_BASE loaded as: {API_BASE}")
+
+# API_BASE = "https://asuno-salon-chatbot.onrender.com"
 
 @cl.on_chat_start
 async def on_chat_start():
